@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "n-orm": [
+        "dist/n-orm"
+      ],
+      "n-orm/*": [
+        "dist/n-orm/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
