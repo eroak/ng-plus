@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { OrmOptions } from './../interfaces/orm-options';
@@ -11,9 +11,6 @@ export function dataAccessFactory(options: OrmOptions, injector: Injector) {
 
 }
 
-@Injectable({
-  providedIn: 'root'
-})
 export class DataAccessService {
 
   constructor(
