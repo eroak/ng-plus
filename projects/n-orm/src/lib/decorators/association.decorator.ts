@@ -1,7 +1,7 @@
 import { IOneToMany, IAssociation, IOneToOne, IManyToMany } from '../interfaces';
 
 
-function Association(association: IAssociation) {
+function Association(association: Partial<IAssociation>) {
 
   return (target: any, propertyName: string) => {
 
