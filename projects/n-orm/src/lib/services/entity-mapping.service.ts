@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { IAssociation } from './../decorators/association.decorator';
 import { EntityHelperService } from './entity-helper.service';
 import { EntityManagerService } from './entity-manager.service';
+import { IAssociation } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'

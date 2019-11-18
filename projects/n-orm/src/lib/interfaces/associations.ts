@@ -1,6 +1,13 @@
 export interface IAssociation {
-  type?: 'OneToMany' | 'OneToOne' | 'ManyToMany';
-  propertyName?: string;
+  type: 'OneToMany' | 'OneToOne' | 'ManyToMany';
+  propertyName: string;
+
+  targetEntity?: object; // Group
+  mappingEntity?: object; // UserGroup
+  joinPropertyName?: string; // UserID
+  referencedPropertyName?: string; // ID (default)
+  inverseJoinPropertyName?: string; // GroupID
+  inverseReferencedPropertyName?: string; // ID (default)
 }
 
 export interface IOneToOne extends IAssociation {
