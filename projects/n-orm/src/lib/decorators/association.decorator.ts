@@ -30,7 +30,7 @@ export function OneToOne(association: IOneToOne) {
 
 export function ManyToMany(association: IManyToMany) {
 
-  return Association({...association, type: 'OneToOne'});
+  return Association({...association, type: 'ManyToMany'});
 
 }
 
