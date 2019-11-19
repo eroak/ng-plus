@@ -57,7 +57,7 @@ export class EntityManagerService {
 
     return forkJoin({
       _entity: of(entity),
-      ...this.entityMappingService.getRelatedEntitiesObservables(this, entity),
+      ...this.entityMappingService.getReadRelatedEntitiesObservables(this, entity),
     }).pipe(
       map(({_entity, ...relateds}: any) => Object.assign(_entity, relateds))
     );
