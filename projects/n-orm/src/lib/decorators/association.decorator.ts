@@ -1,11 +1,11 @@
 import { IOneToMany, IAssociation, IOneToOne, IManyToMany } from '../interfaces';
-
+import { Ignore } from './ignore.decorator';
 
 function Association(association: Partial<IAssociation>) {
 
   return (target: any, propertyName: string) => {
 
-    addToIgnoredProperties(target, propertyName);
+    Ignore(target, propertyName);
 
     (target._associations = target._associations || []).push({
       ...association,
@@ -31,11 +31,5 @@ export function OneToOne(association: IOneToOne) {
 export function ManyToMany(association: IManyToMany) {
 
   return Association({...association, type: 'ManyToMany'});
-
-}
-
-function addToIgnoredProperties(target: any, propertyName: string) {
-
-  (target._ignore = target._ignore || []).push(propertyName);
 
 }
