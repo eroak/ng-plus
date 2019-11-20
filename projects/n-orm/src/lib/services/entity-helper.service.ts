@@ -19,7 +19,8 @@ export class EntityHelperService {
 
   public getEntityID(entity: any): number | string | null {
 
-    return entity[this.ormOptions.entityPKName] || null;
+    const association = this.getAssociations(entity);
+    return association.referencedPropertyName || entity[this.ormOptions.entityPKName] || null;
 
   }
 
