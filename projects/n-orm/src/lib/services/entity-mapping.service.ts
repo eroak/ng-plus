@@ -58,14 +58,25 @@ export class EntityMappingService {
 
         case 'OneToOne':
 
-          associationsObservables[association.propertyName] = em.get(association.targetEntity, entity[association.joinPropertyName]);
+          // This part is used to get entities from PK or from another key if specified (referencedPropertyName)
+          if (association.referencedPropertyName) {
+            associationsObservables[association.propertyName] = em.list(association.targetEntity, {
+              [association.referencedPropertyName]: entity[association.joinPropertyName]
+            }).pipe(
+              map((entities: any[]) => entities.shift())
+            );
+          } else {
+            associationsObservables[association.propertyName] = em.get(association.targetEntity, entity[association.joinPropertyName]);
+          }
 
           break;
 
         case 'OneToMany':
 
           associationsObservables[association.propertyName] = em.list(association.targetEntity, {
-            [association.joinPropertyName]: this.entityHelperService.getEntityID(entity)
+            [association.joinPropertyName]: association.referencedPropertyName
+            ? entity[association.referencedPropertyName]
+            : this.entityHelperService.getEntityID(entity)
           });
 
           break;
@@ -73,9 +84,22 @@ export class EntityMappingService {
         case 'ManyToMany':
 
           associationsObservables[association.propertyName] = em.list(association.mappingEntity, {
-            [association.joinPropertyName]: this.entityHelperService.getEntityID(entity)
+            [association.joinPropertyName]: association.referencedPropertyName
+            ? entity[association.referencedPropertyName]
+            : this.entityHelperService.getEntityID(entity)
           }).pipe(
-            map((items: any[]) => items.map(item => em.get(association.targetEntity, item[association.inverseJoinPropertyName]))),
+            map((items: any[]) => items.map(item => {
+              // This part is used to get entities from PK or from another key if specified (inverseReferencedPropertyName)
+              if (association.inverseReferencedPropertyName) {
+                em.list(association.targetEntity, {
+                  [association.inverseReferencedPropertyName]: entity[association.inverseJoinPropertyName]
+                }).pipe(
+                  map((entities: any[]) => entities.shift())
+                );
+              } else {
+                return em.get(association.targetEntity, item[association.inverseJoinPropertyName]);
+              }
+            })),
             switchMap(itemsObservables => forkJoin(itemsObservables)),
             defaultIfEmpty([]),
           );
